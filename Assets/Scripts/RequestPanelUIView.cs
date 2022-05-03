@@ -6,14 +6,11 @@ using UnityEngine.UI;
 
 public class RequestPanelUIView : MonoBehaviour
 {
-    [SerializeField] private List<Toggle> _toggles;
+    [SerializeField] private List<ToggleInformation> _togglesInformations;
     [SerializeField] private Button _searchButton;
     [SerializeField] private Text _token;
 
-    public Text Token
-    {
-        get { return _token; }
-    }
+    public string TokenText => _token.text;
 
     public UnityAction OnSearchNFTPictures;
     
@@ -22,13 +19,13 @@ public class RequestPanelUIView : MonoBehaviour
         _searchButton.onClick.AddListener(OnSearchNFTPictures);    
     }
     
-    public Toggle ReturnActiveToggle()
+    public ToggleInformation ReturnActiveToggle()
     {
-        for(int i = 0; i < _toggles.Count; i++)
+        for(int i = 0; i < _togglesInformations.Count; i++)
         {
-            if(_toggles[i].isOn)
+            if(_togglesInformations[i].Toggle.isOn)
             {
-                return _toggles[i];
+                return _togglesInformations[i];
             }
         }
         return null;
