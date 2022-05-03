@@ -27,7 +27,7 @@ public class NFTRequester : MonoBehaviour
         ToggleInformation currentToggleInformation = _requestPanel.ReturnActiveToggle();
         _request = UnityWebRequest.Get(requests[currentToggleInformation.RequestInformationKey] + _requestPanel.TokenText);
         yield return _request.SendWebRequest();
-        Debug.Log(_request.ToString());
+        Debug.Log(_request.downloadHandler.text);
     }
 
     private void MadeRequest()
