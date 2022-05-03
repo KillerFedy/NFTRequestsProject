@@ -15,11 +15,11 @@ public class RequestPanelUIView : MonoBehaviour
         get { return _token; }
     }
 
-    public UnityAction onSearchNFTPictures;
+    public UnityAction OnSearchNFTPictures;
     
     private void Start()
     {
-        _searchButton.onClick.AddListener(onSearchNFTPictures);    
+        _searchButton.onClick.AddListener(OnSearchNFTPictures);    
     }
     
     public Toggle ReturnActiveToggle()

@@ -1203,7 +1203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ae408ba4e69a84eb4d4ad88524a5ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toggles: []
+  _toggles:
+  - {fileID: 1259652190}
+  - {fileID: 2083581486}
+  - {fileID: 885011111}
   _searchButton: {fileID: 1233955455}
   _token: {fileID: 542324401}
 --- !u!1 &1211688186

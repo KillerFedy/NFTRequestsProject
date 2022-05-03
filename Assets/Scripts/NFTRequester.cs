@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NFTRequester : MonoBehaviour
 {
@@ -12,13 +13,21 @@ public class NFTRequester : MonoBehaviour
         {"creator", "https://ethereum-api.rarible.org/v0.1/nft/items/byCreator?creator=" },
         {"collection", "https://ethereum-api.rarible.org/v0.1/nft/items/byCollection?collection=" }
     };
-    private void Start()
+
+    private void Awake()
     {
-        
+        _requestPanel.OnSearchNFTPictures += MadeRequest;
     }
 
-    private void Update()
+    IEnumerator RequestNFT()
     {
-        
+        Toggle currentToggle = _requestPanel.ReturnActiveToggle();
+        yield return new WaitForSeconds(1);
+        Debug.Log(currentToggle.gameObject.name);
+    }
+
+    private void MadeRequest()
+    {
+        StartCoroutine(RequestNFT());
     }
 }
