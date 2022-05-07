@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class NFTRequester : MonoBehaviour
 {
     [SerializeField] private RequestPanelUIView _requestPanel;
+    [SerializeField] private int _countOfNFTItemsToFind;
+    
+    private List<string> _imagesUrls = new List<string>();
+    private List<Texture> _imagesTextures = new List<Texture>();
 
     private Dictionary<string, string> requests = new Dictionary<string, string>()
     {
@@ -15,23 +19,73 @@ public class NFTRequester : MonoBehaviour
         {"collection", "https://ethereum-api.rarible.org/v0.1/nft/items/byCollection?collection=" }
     };
 
-    private UnityWebRequest _request;
-
     private void Awake()
     {
         _requestPanel.OnSearchNFTPictures += MadeRequest;
     }
 
-    IEnumerator RequestNFT()
+    IEnumerator RequestNFTWebSite()
     {
         ToggleInformation currentToggleInformation = _requestPanel.ReturnActiveToggle();
-        _request = UnityWebRequest.Get(requests[currentToggleInformation.RequestInformationKey] + _requestPanel.TokenText);
-        yield return _request.SendWebRequest();
-        Debug.Log(_request.downloadHandler.text);
+        UnityWebRequest request = UnityWebRequest.Get(requests[currentToggleInformation.RequestInformationKey] + _requestPanel.TokenText);
+        yield return request.SendWebRequest();
+        string resultOfRequest = request.downloadHandler.text;
+        Debug.Log(resultOfRequest);
+        if((request.isNetworkError || request.isHttpError) || (IsItemsEmpty(resultOfRequest)))
+        {
+            //Вывести ошибку
+            Debug.Log("NO");
+        }
+        else
+        {
+            Debug.Log("YES");
+            FindLinkToImages(resultOfRequest);
+            GetPicturesFromUrls();
+        }
     }
 
     private void MadeRequest()
     {
-        StartCoroutine(RequestNFT());
+        StartCoroutine(RequestNFTWebSite());
+    }
+
+    private bool IsItemsEmpty(string result)
+    {
+        int indexOfCountItems = 9;
+        return result[indexOfCountItems] == '0';
+    }
+
+    private void FindLinkToImages(string result)
+    {
+        _imagesUrls.Clear();
+        string textToFind = "\"image\":{\"url\":{\"ORIGINAL\"";
+        int i = 0;
+        int y = result.IndexOf(textToFind, 0);
+        while ((i < _countOfNFTItemsToFind) && (y != -1))
+        {
+            string url = "https";
+            int start = result.IndexOf(url, y);
+            int finish = result.IndexOf("\"", start);
+            url = result.Substring(start, finish - start);
+            _imagesUrls.Add(url);
+            y = result.IndexOf(textToFind, y + textToFind.Length);
+            i++;
+        }
+    }
+
+    private IEnumerator GetPictureFromURL(string urlImage)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(urlImage);
+        yield return request.SendWebRequest();
+        _imagesTextures.Add(DownloadHandlerTexture.GetContent(request));
+    }
+
+    private void GetPicturesFromUrls()
+    {
+        _imagesTextures.Clear();
+        foreach (string url in _imagesUrls)
+        {
+            StartCoroutine(GetPictureFromURL(url));
+        }
     }
 }

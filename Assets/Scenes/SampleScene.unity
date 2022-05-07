@@ -294,6 +294,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requestPanel: {fileID: 1019870250}
+  _countOfNFTItemsToFind: 6
+  _imagesUrls: []
+  _imagesTextures: []
+  _texture: {fileID: 0}
 --- !u!4 &424927925
 Transform:
   m_ObjectHideFlags: 0
