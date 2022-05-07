@@ -8,17 +8,11 @@ public class RequestPanelUIView : BaseScreen
 {
     [SerializeField] private List<ToggleInformation> _togglesInformations;
     [SerializeField] private Button _searchButton;
-    [SerializeField] private Text _token;
+    [SerializeField] private InputField _tokenInput;
+    [SerializeField] private Text _errorText;
 
-    public string TokenText => _token.text;
+    public string TokenText => _tokenInput.text;
 
-    public UnityAction OnSearchNFTPictures;
-    
-    private void Start()
-    {
-        _searchButton.onClick.AddListener(OnSearchNFTPictures);    
-    }
-    
     public ToggleInformation ReturnActiveToggle()
     {
         for(int i = 0; i < _togglesInformations.Count; i++)
@@ -39,5 +33,17 @@ public class RequestPanelUIView : BaseScreen
     protected override void Deactivate()
     {
         base.Deactivate();
+        DisableInputText();
+    }
+
+    public void SetActiveErrorText(bool isActive)
+    {
+        _errorText.gameObject.SetActive(isActive);
+        DisableInputText();
+    }
+
+    private void DisableInputText()
+    {
+        _tokenInput.text = "";
     }
 }
