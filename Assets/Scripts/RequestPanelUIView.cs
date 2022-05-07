@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class RequestPanelUIView : MonoBehaviour
+public class RequestPanelUIView : BaseScreen
 {
     [SerializeField] private List<ToggleInformation> _togglesInformations;
     [SerializeField] private Button _searchButton;
@@ -29,5 +29,15 @@ public class RequestPanelUIView : MonoBehaviour
             }
         }
         return null;
+    }
+
+    protected override void Activate()
+    {
+        base.Activate();
+    }
+
+    protected override void Deactivate()
+    {
+        base.Deactivate();
     }
 }

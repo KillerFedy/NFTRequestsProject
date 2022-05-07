@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -19,12 +20,14 @@ public class NFTRequester : MonoBehaviour
         {"collection", "https://ethereum-api.rarible.org/v0.1/nft/items/byCollection?collection=" }
     };
 
+    public UnityEvent OnSuccessRequest;
+
     private void Awake()
     {
         _requestPanel.OnSearchNFTPictures += MadeRequest;
     }
 
-    IEnumerator RequestNFTWebSite()
+    private IEnumerator RequestNFTWebSite()
     {
         ToggleInformation currentToggleInformation = _requestPanel.ReturnActiveToggle();
         UnityWebRequest request = UnityWebRequest.Get(requests[currentToggleInformation.RequestInformationKey] + _requestPanel.TokenText);
@@ -41,7 +44,14 @@ public class NFTRequester : MonoBehaviour
             Debug.Log("YES");
             FindLinkToImages(resultOfRequest);
             GetPicturesFromUrls();
+            StartCoroutine(WaitForFullImageList());
         }
+    }
+
+    private IEnumerator WaitForFullImageList()
+    {
+        yield return new WaitUntil(IsImagesListFull);
+        Debug.Log("!!!!!!!!!!!");
     }
 
     private void MadeRequest()
@@ -88,4 +98,9 @@ public class NFTRequester : MonoBehaviour
             StartCoroutine(GetPictureFromURL(url));
         }
     }
+
+    private bool IsImagesListFull()
+    {
+        return (_countOfNFTItemsToFind == _imagesTextures.Count);
+    }    
 }
