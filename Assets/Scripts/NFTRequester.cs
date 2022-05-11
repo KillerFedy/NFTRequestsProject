@@ -22,6 +22,7 @@ public class NFTRequester : MonoBehaviour
 
     public UnityEvent<List<Texture>> OnSuccessRequest;
     public UnityEvent OnErrorRequest;
+    public UnityEvent OnWaitingDownloadImages;
 
     private IEnumerator RequestNFTWebSite()
     {
@@ -35,6 +36,7 @@ public class NFTRequester : MonoBehaviour
         }
         else
         {
+            OnWaitingDownloadImages?.Invoke();
             FindLinkToImages(resultOfRequest);
             GetPicturesFromUrls();
             StartCoroutine(WaitForFullImageList());

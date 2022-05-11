@@ -9,7 +9,7 @@ public class RequestPanelUIView : BaseScreen
     [SerializeField] private List<ToggleInformation> _togglesInformations;
     [SerializeField] private Button _searchButton;
     [SerializeField] private InputField _tokenInput;
-    [SerializeField] private Text _errorText;
+    [SerializeField] private Text _informationText;
 
     public string TokenText => _tokenInput.text;
 
@@ -25,19 +25,25 @@ public class RequestPanelUIView : BaseScreen
         return null;
     }
 
+    protected override void Activate()
+    {
+        base.Activate();
+        SetInformationText("");
+        DisableInputText();
+    }
+
     protected override void Deactivate()
     {
         base.Deactivate();
         DisableInputText();
     }
 
-    public void SetActiveErrorText(bool isActive)
+    public void SetInformationText(string info)
     {
-        _errorText.gameObject.SetActive(isActive);
-        DisableInputText();
+        _informationText.text = info;
     }
 
-    private void DisableInputText()
+    public void DisableInputText()
     {
         _tokenInput.text = "";
     }

@@ -7,7 +7,7 @@ public class NFTPicturesDisplayerUIView : BaseScreen
 {
     [SerializeField] private List<RawImage> rawImages;
 
-    private void SetTexturesToImages(List<Texture> textures)
+    public void SetTexturesToImages(List<Texture> textures)
     {
         for(int i = 0; i < textures.Count; i++)
         {

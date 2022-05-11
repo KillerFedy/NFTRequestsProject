@@ -14,7 +14,7 @@ public class BaseScreen : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SwitchScreenTo(BaseScreen switchScreen)
+    public void SwitchScreenTo(BaseScreen switchScreen)
     {
         Deactivate();
         switchScreen.Activate();
