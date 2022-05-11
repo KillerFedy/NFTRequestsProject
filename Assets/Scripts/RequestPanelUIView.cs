@@ -8,6 +8,7 @@ public class RequestPanelUIView : BaseScreen
 {
     [SerializeField] private List<ToggleInformation> _togglesInformations;
     [SerializeField] private Button _searchButton;
+    [SerializeField] private Button _backButton;
     [SerializeField] private InputField _tokenInput;
     [SerializeField] private Text _informationText;
 
@@ -46,5 +47,11 @@ public class RequestPanelUIView : BaseScreen
     public void DisableInputText()
     {
         _tokenInput.text = "";
+    }
+
+    public void SetEnableButtons(bool isActive)
+    {
+        _searchButton.enabled = isActive;
+        _backButton.enabled = isActive;
     }
 }

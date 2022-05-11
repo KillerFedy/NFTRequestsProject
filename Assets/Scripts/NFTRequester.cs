@@ -22,21 +22,23 @@ public class NFTRequester : MonoBehaviour
 
     public UnityEvent<List<Texture>> OnSuccessRequest;
     public UnityEvent OnErrorRequest;
-    public UnityEvent OnWaitingDownloadImages;
+    public UnityEvent OnWaitingRequest;
+    public UnityEvent OnFinishedRequest;
 
     private IEnumerator RequestNFTWebSite()
     {
+        OnWaitingRequest?.Invoke();
         ToggleInformation currentToggleInformation = _requestPanel.ReturnActiveToggle();
         UnityWebRequest request = UnityWebRequest.Get(requests[currentToggleInformation.RequestInformationKey] + _requestPanel.TokenText);
         yield return request.SendWebRequest();
         string resultOfRequest = request.downloadHandler.text;
-        if((request.isNetworkError || request.isHttpError) || (IsItemsEmpty(resultOfRequest)))
+        if ((request.isNetworkError || request.isHttpError) || (IsItemsEmpty(resultOfRequest)))
         {
             OnErrorRequest?.Invoke();
+            OnFinishedRequest?.Invoke();
         }
         else
         {
-            OnWaitingDownloadImages?.Invoke();
             FindLinkToImages(resultOfRequest);
             GetPicturesFromUrls();
             StartCoroutine(WaitForFullImageList());
@@ -47,6 +49,7 @@ public class NFTRequester : MonoBehaviour
     {
         yield return new WaitUntil(IsImagesListFull);
         OnSuccessRequest?.Invoke(_imagesTextures);
+        OnFinishedRequest?.Invoke();
     }
 
     private void MadeRequest()
