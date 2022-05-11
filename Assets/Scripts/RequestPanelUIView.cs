@@ -25,11 +25,6 @@ public class RequestPanelUIView : BaseScreen
         return null;
     }
 
-    protected override void Activate()
-    {
-        base.Activate();
-    }
-
     protected override void Deactivate()
     {
         base.Deactivate();

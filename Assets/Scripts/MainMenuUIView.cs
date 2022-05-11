@@ -5,13 +5,5 @@ using UnityEngine.UI;
 
 public class MainMenuUIView : BaseScreen
 {
-    protected override void Activate()
-    {
-        base.Activate();
-    }
 
-    protected override void Deactivate()
-    {
-        base.Deactivate();
-    }
 }

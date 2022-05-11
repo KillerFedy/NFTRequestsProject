@@ -6,15 +6,6 @@ using UnityEngine.UI;
 public class NFTPicturesDisplayerUIView : BaseScreen
 {
     [SerializeField] private List<RawImage> rawImages;
-    protected override void Activate()
-    {
-        base.Activate();
-    }
-
-    protected override void Deactivate()
-    {
-        base.Deactivate();
-    }
 
     private void SetTexturesToImages(List<Texture> textures)
     {
