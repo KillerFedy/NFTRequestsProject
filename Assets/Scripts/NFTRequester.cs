@@ -62,7 +62,7 @@ public class NFTRequester : MonoBehaviour
         int indexOfCountItems = 9;
         return result[indexOfCountItems] == '0';
     }
-    //«наю, что свой парсер писать здесь неуместно, что есть JsonUtility, но было мало времени, а утилита не работала. Ќе судите строго)...
+
     private void FindLinkToImages(string result)
     {
         _imagesUrls.Clear();
